@@ -1,0 +1,77 @@
+﻿<UserControl x:Class="ICB_TASK.LoadData.LOAD"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ICB_TASK.LoadData"
+             xmlns:local1="clr-namespace:ICB_TASK.LoadData.ViewModel"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid >
+        <TreeView VerticalAlignment="Top" ItemsSource="{Binding Items}" 
+                              VirtualizingStackPanel.IsVirtualizing="True"
+            VirtualizingStackPanel.VirtualizationMode="Recycling" 
+                  >
+
+            <TreeView.ItemContainerStyle>
+             
+                <Style TargetType="{x:Type TreeViewItem}">
+                    <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
+                    <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                    <Setter Property="FontWeight" Value="Normal" />
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="FontWeight" Value="Bold" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </TreeView.ItemContainerStyle>
+
+            <TreeView.Resources>
+                <HierarchicalDataTemplate 
+                 DataType="{x:Type local1:ItemViewModel}" 
+                 ItemsSource="{Binding Children}">
+                    <StackPanel  Orientation="Horizontal"  >
+                        <Image Width="16" Height="16" Margin="3,0" Source="/Image/icon.png" />
+                        <TextBlock  Text="{Binding ItemDetails}"  />
+
+                    </StackPanel>
+
+                </HierarchicalDataTemplate>
+
+                <HierarchicalDataTemplate 
+          DataType="{x:Type local1:ItemVersionViewModel}" 
+          ItemsSource="{Binding Children}"
+          >
+                    <StackPanel Orientation="Horizontal">
+
+                        <TextBlock Text="{Binding ItemVersionDetails}" />
+                    </StackPanel>
+                </HierarchicalDataTemplate>
+
+
+                <HierarchicalDataTemplate 
+          DataType="{x:Type local1:ItemVersion2SubitemViewModel}" 
+          ItemsSource="{Binding Children}"
+          >
+                    <StackPanel Orientation="Horizontal">
+
+                        <TextBlock Text="{Binding ItemVersion2SubitemDetails}" />
+                    </StackPanel>
+                </HierarchicalDataTemplate>
+
+                <DataTemplate DataType="{x:Type local1:SubitemViewModel}">
+                    <StackPanel Orientation="Horizontal">
+
+                        <TextBlock Text="{Binding SubItemDetails}" />
+                    </StackPanel>
+                </DataTemplate>
+            </TreeView.Resources>
+
+
+
+        </TreeView>
+
+
+    </Grid>
+</UserControl>
