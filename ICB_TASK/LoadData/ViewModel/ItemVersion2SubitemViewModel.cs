@@ -18,7 +18,7 @@ namespace ICB_TASK.LoadData.ViewModel
             _ItemVersion2Subitem = itemversion2subitem;
         }
 
-        public string ItemVersion2SubitemDetails
+        public string ItemDetails
         {
             get { return "ItemVersion2Subitem  ID: " + _ItemVersion2Subitem.ID+ " | ItemVersionID: " + _ItemVersion2Subitem.ItemVersionID+ "  |  SubItemID:" + _ItemVersion2Subitem.SubItemID; }
         }

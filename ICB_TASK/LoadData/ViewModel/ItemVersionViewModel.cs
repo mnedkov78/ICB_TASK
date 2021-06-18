@@ -12,20 +12,25 @@ namespace ICB_TASK.LoadData.ViewModel
     {
 
         readonly ItemVersion _ItemVersion;
+        readonly string _Parent;
 
-        public ItemVersionViewModel(ItemVersion itemversion)
+        public ItemVersionViewModel(ItemVersion itemversion,string  Versionparemt)
             : base(null, true)
         {
             _ItemVersion = itemversion;
+            _Parent = Versionparemt;
         }
 
-        public string ItemVersionDetails
+        public string ItemDetails
         {
-            get { return "ItemVersion ID: " + _ItemVersion.ID+" | Version: "+ _ItemVersion.Version + "  | Item_ID : " + _ItemVersion.Item_ID + " |  ItemReleaseDate: " + _ItemVersion.ItemReleaseDate; }
+           //get { return "ItemVersion ID: " + _ItemVersion.ID+" | Version: "+ _ItemVersion.Version + "  | Item_ID : " + _ItemVersion.Item_ID + " |  ItemReleaseDate: " + _ItemVersion.ItemReleaseDate; }
+            get { return _Parent+" / "+ _ItemVersion.Version; }
         }
 
         protected override void LoadChildren()
         {
+            /*
+        
             DataTable dt = new DataTable("ItemVersion2Subitem");
 
             string commandtext = "select  * from ItemVersion2Subitem where ItemVersionID =" + _ItemVersion.ID;
@@ -50,6 +55,33 @@ namespace ICB_TASK.LoadData.ViewModel
                 };
                 if (string.IsNullOrEmpty(item.ID)) continue;
                 base.Children.Add(new ItemVersion2SubitemViewModel(item));
+            }
+            */
+
+            DataTable dt = new DataTable("SubItem");
+
+            string commandtext = "select  * from SubItem where ID in (" + "select  ItemVersion2Subitem.SubItemID from ItemVersion2Subitem where ItemVersionID =" + _ItemVersion.ID +")";
+            using (OleDbConnection cn = new OleDbConnection(@"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=|DataDirectory|\PLM.TEST.mdb"))
+            {
+                using (OleDbCommand cmd = new OleDbCommand(commandtext, cn))
+                {
+                    cn.Open();
+                    OleDbDataAdapter adapter = new OleDbDataAdapter(cmd);
+                    adapter.Fill(dt);
+                }
+            }
+
+
+            foreach (DataRow row in dt.Rows)
+            {
+                var item = new SubItem
+                {
+                    ID = row["ID"].ToString(),
+                    Subid = row["Subid"].ToString(),
+
+                };
+                if (string.IsNullOrEmpty(item.ID)) continue;
+                base.Children.Add(new SubitemViewModel(item));
             }
         }
     }

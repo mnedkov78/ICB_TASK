@@ -25,7 +25,7 @@ namespace ICB_TASK.LoadData.ViewModel
 
         public string ItemDetails
         {
-            get { return "Item  ID: "+_item.ID+ " | Item_id: " + _item.Item_id+ " | item_name: " + _item.item_name; }
+            get { return  _item.ID +"  |  " + _item.item_name; }
         }
 
         protected override void LoadChildren()
@@ -33,7 +33,7 @@ namespace ICB_TASK.LoadData.ViewModel
 
             DataTable dt = new DataTable("ItemVersion");
 
-            string commandtext = "select  * from ItemVersion where Item_ID ="+_item.ID+" Order by ItemReleaseDate" ;
+            string commandtext = "select  * from ItemVersion where (StrComp(Item_ID, '" + _item.ID + "') = 0) Order by ItemReleaseDate" ;
             using (OleDbConnection cn = new OleDbConnection(@"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=|DataDirectory|\PLM.TEST.mdb"))
             {
                 using (OleDbCommand cmd = new OleDbCommand(commandtext, cn))
@@ -56,7 +56,7 @@ namespace ICB_TASK.LoadData.ViewModel
                     ItemReleaseDate = row["ItemReleaseDate"].ToString()
                 };
                 if (string.IsNullOrEmpty(item.ID)) continue;
-                base.Children.Add(new ItemVersionViewModel(item) { 
+                base.Children.Add(new ItemVersionViewModel(item, _item.Item_id) { 
             });
             }
         }

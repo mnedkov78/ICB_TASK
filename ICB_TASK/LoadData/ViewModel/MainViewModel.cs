@@ -14,7 +14,7 @@ namespace ICB_TASK.LoadData.ViewModel
 
 
 
-        private ObservableCollection<ItemViewModel> _items;//= new ObservableCollection<ItemViewModel>();
+        private ObservableCollection<ItemViewModel> _items;
         public  MainViewModel()
         {
             _items = new ObservableCollection<ItemViewModel>();
@@ -38,7 +38,7 @@ namespace ICB_TASK.LoadData.ViewModel
                 {
                     ID = row["ID"].ToString(),
                     Item_id = row["Item_id"].ToString(),
-                    item_name = row["Item_id"].ToString()
+                    item_name = row["item_name"].ToString()
                 };
                 if (string.IsNullOrEmpty(item.ID)) continue;
                 ItemViewModel newitem = new ItemViewModel(item);

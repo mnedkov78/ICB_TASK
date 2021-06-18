@@ -8,7 +8,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid >
-        <TreeView VerticalAlignment="Top" ItemsSource="{Binding Items}" 
+        <TreeView x:Name="aa123" VerticalAlignment="Top" ItemsSource="{Binding Items}" 
                               VirtualizingStackPanel.IsVirtualizing="True"
             VirtualizingStackPanel.VirtualizationMode="Recycling" 
                   >
@@ -27,46 +27,14 @@
                 </Style>
             </TreeView.ItemContainerStyle>
 
-            <TreeView.Resources>
-                <HierarchicalDataTemplate 
-                 DataType="{x:Type local1:ItemViewModel}" 
-                 ItemsSource="{Binding Children}">
+            <TreeView.ItemTemplate>
+                <HierarchicalDataTemplate DataType="{x:Type TreeViewItem}" ItemsSource="{Binding Children}">
                     <StackPanel  Orientation="Horizontal"  >
                         <Image Width="16" Height="16" Margin="3,0" Source="/Image/icon.png" />
                         <TextBlock  Text="{Binding ItemDetails}"  />
-
-                    </StackPanel>
-
-                </HierarchicalDataTemplate>
-
-                <HierarchicalDataTemplate 
-          DataType="{x:Type local1:ItemVersionViewModel}" 
-          ItemsSource="{Binding Children}"
-          >
-                    <StackPanel Orientation="Horizontal">
-
-                        <TextBlock Text="{Binding ItemVersionDetails}" />
                     </StackPanel>
                 </HierarchicalDataTemplate>
-
-
-                <HierarchicalDataTemplate 
-          DataType="{x:Type local1:ItemVersion2SubitemViewModel}" 
-          ItemsSource="{Binding Children}"
-          >
-                    <StackPanel Orientation="Horizontal">
-
-                        <TextBlock Text="{Binding ItemVersion2SubitemDetails}" />
-                    </StackPanel>
-                </HierarchicalDataTemplate>
-
-                <DataTemplate DataType="{x:Type local1:SubitemViewModel}">
-                    <StackPanel Orientation="Horizontal">
-
-                        <TextBlock Text="{Binding SubItemDetails}" />
-                    </StackPanel>
-                </DataTemplate>
-            </TreeView.Resources>
+            </TreeView.ItemTemplate>
 
 
 
